@@ -1,30 +1,30 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://mob.gd" type="Script" id=1]
-[ext_resource path="res://dodge_assets/art/enemyWalking_1.png" type="Texture" id=2]
-[ext_resource path="res://dodge_assets/art/enemyWalking_2.png" type="Texture" id=3]
-[ext_resource path="res://dodge_assets/art/enemySwimming_1.png" type="Texture" id=4]
-[ext_resource path="res://dodge_assets/art/enemySwimming_2.png" type="Texture" id=5]
-[ext_resource path="res://dodge_assets/art/enemyFlyingAlt_1.png" type="Texture" id=6]
-[ext_resource path="res://dodge_assets/art/enemyFlyingAlt_2.png" type="Texture" id=7]
+[ext_resource path="res://characters/mob/mob.gd" type="Script" id=1]
+[ext_resource path="res://dodge_assets/art/enemySwimming_1.png" type="Texture" id=2]
+[ext_resource path="res://dodge_assets/art/enemySwimming_2.png" type="Texture" id=3]
+[ext_resource path="res://dodge_assets/art/enemyFlyingAlt_1.png" type="Texture" id=4]
+[ext_resource path="res://dodge_assets/art/enemyFlyingAlt_2.png" type="Texture" id=5]
+[ext_resource path="res://dodge_assets/art/enemyWalking_1.png" type="Texture" id=6]
+[ext_resource path="res://dodge_assets/art/enemyWalking_2.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
-"name": "walk",
+"name": "swim",
 "speed": 4.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
-"name": "swim",
-"speed": 4.0
+"name": "fly",
+"speed": 3.0
 }, {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
-"name": "fly",
-"speed": 3.0
+"name": "walk",
+"speed": 4.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -33,7 +33,7 @@ custom_solver_bias = 0.0
 radius = 16.393
 height = 40.5028
 
-[node name="mob" type="RigidBody2D" index="0"]
+[node name="mob" type="RigidBody2D"]
 
 input_pickable = false
 collision_layer = 1
@@ -58,14 +58,14 @@ _sections_unfolded = [ "Collision" ]
 MIN_SPEED = null
 MAX_SPEED = null
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="0"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 
 scale = Vector2( 0.75, 0.75 )
 frames = SubResource( 1 )
 animation = "swim"
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 position = Vector2( -2.30278, -0.0687943 )
 rotation = 1.5708
@@ -73,7 +73,7 @@ scale = Vector2( 2.19836, 1.41222 )
 shape = SubResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="2"]
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 rect = Rect2( -10, -10, 20, 20 )
 

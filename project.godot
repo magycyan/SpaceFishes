@@ -11,12 +11,17 @@ config_version=3
 [application]
 
 config/name="Test 1.0"
+run/main_scene="res://game/lobby.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+game="*res://game/game.gd"
 
 [display]
 
-window/size/width=480
-window/size/height=720
+window/size/width=1000
+window/size/height=1000
 
 [rendering]
 

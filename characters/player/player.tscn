@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://Particle test.tscn" type="PackedScene" id=2]
+[ext_resource path="res://characters/player/player.gd" type="Script" id=1]
+[ext_resource path="res://effects/trail.tscn" type="PackedScene" id=2]
 [ext_resource path="res://dodge_assets/art/playerGrey_walk1.png" type="Texture" id=3]
 [ext_resource path="res://dodge_assets/art/playerGrey_walk2.png" type="Texture" id=4]
 [ext_resource path="res://dodge_assets/art/playerGrey_up1.png" type="Texture" id=5]
@@ -27,7 +27,7 @@ custom_solver_bias = 0.0
 radius = 26.8106
 height = 11.2656
 
-[node name="Player" type="Area2D" index="0"]
+[node name="Player" type="Area2D"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -40,12 +40,12 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 SPEED = 400
 
-[node name="Particles" parent="." index="0" instance=ExtResource( 2 )]
+[node name="Particles" parent="." instance=ExtResource( 2 )]
 
 rotation = 1.5708
 _sections_unfolded = [ "Z" ]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 
 position = Vector2( 1.13605, 15.9045 )
 scale = Vector2( 0.5, 0.5 )
@@ -53,7 +53,7 @@ frames = SubResource( 1 )
 animation = "right"
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 position = Vector2( 1.70407, 15.3365 )
 shape = SubResource( 2 )
