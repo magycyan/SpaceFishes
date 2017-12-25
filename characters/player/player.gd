@@ -3,9 +3,12 @@ extends Area2D
 signal hit
 
 export (int) var SPEED
+const COOLDOWN_DURATION = 0.5
+
 var velocity = Vector2()
 var screensize
 var player_name
+var cooldown = 0
 
 slave var slave_position = Vector2()
 
@@ -31,6 +34,11 @@ func _process(delta):
 			velocity = velocity.normalized() * SPEED
 		else:
 			$AnimatedSprite.stop()
+		
+		if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_shoot():
+			spawn_projectile()
+		if cooldown > 0:
+			cooldown -= delta
 		
 		position += velocity * delta
 		position.x = clamp(position.x, 0, screensize.x)
@@ -58,3 +66,16 @@ func start(pos):
 	position = pos
 	show()
 	monitoring = true
+
+func spawn_projectile():
+	var projectile = preload("res://effects/plasma_projectile.tscn").instance()
+	projectile.position = global_position
+	projectile.rotation = get_angle_to(get_global_mouse_position())
+	cooldown = COOLDOWN_DURATION
+	get_parent().add_child(projectile)
+	
+func can_shoot():
+	return cooldown <= 0
+
+
+
