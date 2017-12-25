@@ -10,6 +10,7 @@ const DEFAULT_PORT = 17123
 const MAX_PEERS = 6
 
 var players = {}
+var player_objects = {}
 var players_ready = []
 var my_player_name
 
@@ -63,7 +64,9 @@ func join_game(ip, name):
 
 func leave_game():
 	rpc("unregister_player", my_id())
-	get_tree().get_meta("network_peer").close_connection()
+	var host = get_tree().get_meta("network_peer")
+	if host:
+		host.close_connection()
 	emit_signal("player_list_changed")
 
 func _notification(what):
@@ -102,8 +105,14 @@ remote func setup_game(spawn_points):
 		player.position = spawn_points[p_id]
 		player.set_network_master(p_id)
 
+		player.connect("hitpoints_changed", world.get_node("hud"), "update_bars")
 		player.set_player_name(players[p_id])
+		player.set_network_id(p_id)
+		player_objects[p_id] = player
 		world.get_node("players").add_child(player)
+
+	world.get_node("hud").set_players(player_objects)
+	world.get_node("hud").update_bars()
 
 	if (not get_tree().is_network_server()):
 		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())

@@ -27,7 +27,9 @@ custom_solver_bias = 0.0
 radius = 26.8106
 height = 11.2656
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" index="0" groups=[
+"characters",
+]]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -38,7 +40,6 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
-SPEED = 400
 
 [node name="Particles" parent="." index="0" instance=ExtResource( 2 )]
 

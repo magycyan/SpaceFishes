@@ -1,21 +1,25 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/hud/hud.tscn" type="PackedScene" id=1]
 
 [node name="world" type="Node"]
 
-[node name="MobTimer" type="Timer" parent="."]
+[node name="MobTimer" type="Timer" parent="." index="0"]
 
 process_mode = 1
 wait_time = 0.5
 one_shot = false
 autostart = false
 
-[node name="ScoreTimer" type="Timer" parent="."]
+[node name="ScoreTimer" type="Timer" parent="." index="1"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
 
-[node name="players" type="Node2D" parent="."]
+[node name="players" type="Node2D" parent="." index="2"]
+
+[node name="hud" parent="." index="3" instance=ExtResource( 1 )]
 
 

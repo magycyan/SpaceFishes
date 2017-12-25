@@ -1,14 +1,18 @@
 extends Area2D
 
-signal hit
+signal hitpoints_changed
 
-export (int) var SPEED
+const BASE_SPEED = 120
 const COOLDOWN_DURATION = 0.5
+const MAX_HITPOINTS = 130
 
 var velocity = Vector2()
+var speed = BASE_SPEED
 var screensize
 var player_name
+var network_id
 var cooldown = 0
+var hitpoints = MAX_HITPOINTS
 
 slave var slave_position = Vector2()
 
@@ -17,6 +21,9 @@ func _ready():
 
 func set_player_name(name):
 	player_name = name
+
+func set_network_id(id):
+	network_id = id
 
 func _process(delta):
 	if is_network_master():
@@ -31,12 +38,12 @@ func _process(delta):
 			velocity.y += 1
 		if velocity.length() > 0:
 			$AnimatedSprite.play()
-			velocity = velocity.normalized() * SPEED
+			velocity = velocity.normalized() * speed
 		else:
 			$AnimatedSprite.stop()
 		
 		if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_shoot():
-			spawn_projectile()
+			_spawn_projectile()
 		if cooldown > 0:
 			cooldown -= delta
 		
@@ -62,20 +69,40 @@ func _on_Player_body_entered( body ):
 	emit_signal("hit")
 	call_deferred("set_monitoring", false)
 
+func get_network_id():
+	return network_id
+
 func start(pos):
 	position = pos
 	show()
 	monitoring = true
 
-func spawn_projectile():
+func _spawn_projectile():
+	rpc("spawn_projectile",
+		global_position,
+		get_angle_to(get_global_mouse_position()),
+		get_tree().get_network_unique_id())
+	cooldown = COOLDOWN_DURATION
+
+sync func spawn_projectile(pos, rot, owner):
 	var projectile = preload("res://effects/plasma_projectile.tscn").instance()
-	projectile.position = global_position
-	projectile.rotation = get_angle_to(get_global_mouse_position())
+	projectile.position = pos
+	projectile.rotation = rot
+	projectile.owner = owner
 	cooldown = COOLDOWN_DURATION
 	get_parent().add_child(projectile)
-	
+
 func can_shoot():
 	return cooldown <= 0
 
+func take_damage(damage, by):
+	rpc("took_damage", damage)
 
+sync func took_damage(damage):
+	hitpoints -= damage
+	emit_signal("hitpoints_changed")
+	if hitpoints <= 0:
+		queue_free()
 
+sync func won_points(points):
+	points += points

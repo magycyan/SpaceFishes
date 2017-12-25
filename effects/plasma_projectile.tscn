@@ -64,7 +64,7 @@ _sections_unfolded = [ "Color", "Initial Velocity" ]
 custom_solver_bias = 0.0
 radius = 12.0822
 
-[node name="plasma_projectile" type="Area2D" index="0"]
+[node name="plasma_projectile" type="Area2D"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -102,5 +102,7 @@ _sections_unfolded = [ "Material", "Process Material", "Textures", "Time" ]
 
 position = Vector2( -0.385544, 0.257027 )
 shape = SubResource( 5 )
+
+[connection signal="area_entered" from="." to="." method="_on_plasma_projectile_area_entered"]
 
 
