@@ -28,8 +28,9 @@ func my_id():
 	return get_tree().get_network_unique_id()
 
 func _on_player_disconnected(id):
-	for p_id in all_players_but_me():
-		rpc_id(p_id, "unregister_player")
+	for p_id in players:
+		if p_id != my_id():
+			rpc_id(p_id, "unregister_player")
 	emit_signal("update_player_list")
 
 func _on_connection_succeeded():
