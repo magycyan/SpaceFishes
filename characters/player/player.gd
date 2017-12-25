@@ -3,8 +3,8 @@ extends Area2D
 signal hitpoints_changed
 
 const BASE_SPEED = 120
-const COOLDOWN_DURATION = 0.5
-const MAX_HITPOINTS = 130
+const COOLDOWN_DURATION = 0.2
+const MAX_HITPOINTS = 30
 
 var velocity = Vector2()
 var speed = BASE_SPEED

@@ -1,7 +1,7 @@
 extends Area2D
 
-const SPEED = 100
-const DAMAGE = 30
+const SPEED = 200
+const DAMAGE = 1
 
 var owner
 
